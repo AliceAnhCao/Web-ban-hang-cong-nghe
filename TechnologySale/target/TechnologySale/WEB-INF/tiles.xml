@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Khai báo kiểu cho file tiles -->
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <!--Template admin-->
+    <definition name="baseLayoutAdmin"
+                template="/WEB-INF/admin/layout.jsp">
+        <put-attribute name="title" value="Template"/>
+        <put-attribute name="header"
+                       value="/WEB-INF/admin/header.jsp"/>
+        <put-attribute name="nav"
+                       value="/WEB-INF/admin/nav.jsp"/>
+        <put-attribute name="body"
+                       value="/WEB-INF/admin/body.jsp"/>
+    </definition>
+
+    <!--Khai báo trang sủ dụng template cho giao diện admin-->
+    <definition name="quanLyThongTinSach" extends="baseLayoutAdmin">  <!-- Tên của theme sẽ được return trong controller để trả về QuanLySach.jsp thay vì return "/sach" như trước-->
+        <put-attribute name="title" value="Trang quản lý sách - BookStore"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/QuanLySach.jsp"/> <!--Hiển thị thông tin của QuanLySach.jsp trong body-->
+    </definition>
+    <definition name="themThongTinSach" extends="baseLayoutAdmin"> <!-- Tên của theme sẽ được return trong controller để trả về SachAdd.jsp-->
+        <put-attribute name="title" value="Trang thêm thông tin sách - BookStore"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/SachAdd.jsp"/> <!--Hiển thị thông tin của SachAdd.jsp trong body-->
+    </definition>
+
+    <!--Template home-->
+    <definition name="baseLayoutHome"
+                template="/WEB-INF/home/layout.jsp">
+        <put-attribute name="title" value="Template"/>
+        <put-attribute name="header"
+                       value="/WEB-INF/home/header.jsp"/>
+        <put-attribute name="menu"
+                       value="/WEB-INF/home/menu.jsp"/>
+        <put-attribute name="sidebar"
+                       value="/WEB-INF/home/sidebar.jsp"/>
+        <put-attribute name="body"
+                       value="/WEB-INF/home/body.jsp"/>
+        <put-attribute name="footer"
+                       value="/WEB-INF/home/footer.jsp"/>
+    </definition>
+
+    <!--Khai báo trang sủ dụng template cho giao diện home-->
+    <definition name="trangChuSanPham" extends="baseLayoutHome">
+        <put-attribute name="title" value="Trang chủ"/>
+        <put-attribute name="body" value="/WEB-INF/views/home/TrangChu.jsp"/>
+    </definition>
+    <definition name="chiTietSanPham" extends="baseLayoutHome">
+        <put-attribute name="title" value="Trang chi tiết"/>
+        <put-attribute name="body" value="/WEB-INF/views/home/ChiTiet.jsp"/>
+    </definition>
+
+</tiles-definitions>

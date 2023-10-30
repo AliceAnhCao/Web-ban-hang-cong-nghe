@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation=" http://www.springframework.org/schema/jdbc
+		http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <context:component-scan
+            base-package="vn.com.TechnologySale" />
+    <mvc:annotation-driven />
+
+
+    <!-- Khai báo resources Bootstrap-->
+    <mvc:resources location="WEB-INF/resources/bootstrap/" mapping="resources/**" cache-period="31556926" />
+
+    <!-- Khai báo resource image để hiển thị ảnh
+    Đường dẫn tuyệt đối: location="/WEB-INF/resources/"
+    Đường dẫn tương đối: mapping="/resources/**"
+    Khai báo "/WEB-INF/resources/" với tên "/resources/**" => Chỉ cần "/resources/css sẽ là /WEB-INF/resources/bootstrap/css"
+    -->
+    <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**" cache-period="31556926"/>
+
+    <!-- Cấu hình thông tin cache (bộ nhờ đệm)
+        Thông tin cấu hình cache (bộ nhớ đệm) của web, lưu thông tin tạm thời khi build web-->
+    <mvc:resources mapping="/images/**" location="/WEB-INF/resources/images/"
+                   cache-period="31556926" />
+
+    <!-- Cấu hình thông tin để upload file-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="26214400" />
+    </bean>
+
+    <!-- -	Cấu hình folder chứa các theme và views cần dùng -->
+    <bean id="viewResolver2"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="order" value="1" /> <!--value="2" thể hiện option 2 mới là hiển thị trên các trang jsp ở trong views-->
+        <property name="prefix" value="/WEB-INF/views/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <bean id="viewResolver1"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="order" value="2" /> <!--value="1" thể hiện option 1 là ưu tiên hiển thị các theme config trong tiles.xml-->
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.tiles3.TilesView" />
+    </bean>
+    <bean id="tilesConfigurer"
+          class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <!-- khai báo các file định nghĩa layout -->
+                <value>/WEB-INF/tiles.xml</value>  <!-- Khai file config để hiển thị các theme-->
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Cấu hình folder chứa file cấu hình Database cần dùng-->
+    <bean
+            class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="location">
+            <value>/WEB-INF/resources/jdbc.properties</value>
+        </property>
+    </bean>
+
+
+
+    <!-- Cấu hình thông tin datasource-->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+
+    <!-- -	Cấu hình template để hiển thị sau khi gọi từ DB lên (sẽ return ở các method bằng jdbcTemplate.)-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+
+   <!-- Config class chứa method xác thực thông tin tài khoản và mật khẩu-->
+
+
+
+</beans>
